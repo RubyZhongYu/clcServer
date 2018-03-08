@@ -1468,11 +1468,12 @@ exports.insertTCJ05=function(req,res){
         var sql = ' declare'+
             ' TTSZ2904 varchar2(4);'+
             ' gyls_str varchar2(2000);'+
+            ' TTFJ0200 number(10) := :TFJ0200;'+
             ' cursor select_TSZ29 is select trim(TSZ2904) from TSZ29,TCJ05 where '+
-            ' TSZ2900=TCJ0502 and TCJ0501=:TFJ0200 order by TCJ0503,TCJ0500;'+
+            ' TSZ2900=TCJ0502 and TCJ0501=TTFJ0200 order by TCJ0503,TCJ0500;'+
             ' begin'+
             ' insert into TCJ05(TCJ0500,TCJ0501,TCJ0502,TCJ0503,TCJ0504,TCJ0505,TCJ0506,TCJ0507)'+
-            ' values(:TCJ0500,:TCJ0501,:TCJ0502,:TCJ0503,:TCJ0504,:TCJ0505,:TCJ0506,:TCJ0507);'+
+            ' values(:TCJ0500,TTFJ0200,:TCJ0502,:TCJ0503,:TCJ0504,:TCJ0505,:TCJ0506,:TCJ0507);'+
             ' gyls_str:=\'\';'+
             ' open select_TSZ29;'+
             ' loop'+
@@ -1481,9 +1482,9 @@ exports.insertTCJ05=function(req,res){
             '    gyls_str:=gyls_str||trim(TTSZ2904);'+
             ' end loop;'+
             ' close select_TSZ29;'+
-            ' update TFJ02 set TFJ0233 = gyls_str where TFJ0200=:TFJ0200;'+
+            ' update TFJ02 set TFJ0233 = gyls_str where TFJ0200=TTFJ0200;'+
             ' end;';
-        var params = [tcj0501,tcj0500,tcj0501,tcj0502,tcj0503,tcj0504,tcj0505,tcj0506,tcj0507,tcj0501];
+        var params = [tcj0501,tcj0500,tcj0502,tcj0503,tcj0504,tcj0505,tcj0506,tcj0507];
         Oracle.queryParam(sql,params,function(err){
             if (err){
                 var result = {
@@ -1530,11 +1531,12 @@ exports.updateTCJ05=function(req,res){
         ' TTCJ0501 number(10);'+
         ' TTSZ2904 varchar2(4);'+
         ' gyls_str varchar2(2000);'+
+        ' TTCJ0500 number(10) := :TCJ0500;'+        
         ' cursor select_TSZ29 is select trim(TSZ2904) from TSZ29,TCJ05 where '+
         ' TSZ2900=TCJ0502 and TCJ0501=TTCJ0501 order by TCJ0503,TCJ0500;'+
         ' begin'+
-        ' select TCJ0501 into TTCJ0501 from TCJ05 where TCJ0500=:TCJ0500;'+
-        ' update TCJ05 set TCJ0502=:TCJ0502,TCJ0503=:TCJ0503,TCJ0504=:TCJ0504,TCJ0505=:TCJ0505,TCJ0506=:TCJ0506,TCJ0507=:TCJ0507 where TCJ0500=:TCJ0500'+
+        ' select TCJ0501 into TTCJ0501 from TCJ05 where TCJ0500=TTCJ0500;'+
+        ' update TCJ05 set TCJ0502=:TCJ0502,TCJ0503=:TCJ0503,TCJ0504=:TCJ0504,TCJ0505=:TCJ0505,TCJ0506=:TCJ0506,TCJ0507=:TCJ0507 where TCJ0500=TTCJ0500;'+
         ' gyls_str:=\'\';'+
         ' open select_TSZ29;'+
         ' loop'+
@@ -1545,7 +1547,7 @@ exports.updateTCJ05=function(req,res){
         ' close select_TSZ29;'+
         ' update TFJ02 set TFJ0233 = gyls_str where TFJ0200=TTCJ0501;'+
         ' end;';
-    var params = [tcj0500,tcj0502,tcj0503,tcj0504,tcj0505,tcj0506,tcj0507,tcj0500];
+    var params = [tcj0500,tcj0502,tcj0503,tcj0504,tcj0505,tcj0506,tcj0507];
     Oracle.queryParam(sql,params,function(err){
         if (err){
             var result = {
@@ -1583,11 +1585,12 @@ exports.deleteTCJ05=function(req,res){
         ' TTCJ0501 number(10);'+
         ' TTSZ2904 varchar2(4);'+
         ' gyls_str varchar2(2000);'+
+        ' TTCJ0500 number(10) := :TCJ0500;'+
         ' cursor select_TSZ29 is select trim(TSZ2904) from TSZ29,TCJ05 where '+
         ' TSZ2900=TCJ0502 and TCJ0501=TTCJ0501 order by TCJ0503,TCJ0500;'+
         ' begin'+
-        ' select TCJ0501 into TTCJ0501 from TCJ05 where TCJ0500=:TCJ0500;'+
-        ' delete from TCJ05 where TCJ0500=:TCJ0500'+
+        ' select TCJ0501 into TTCJ0501 from TCJ05 where TCJ0500=TTCJ0500;'+
+        ' delete from TCJ05 where TCJ0500=TTCJ0500;'+
         ' gyls_str:=\'\';'+
         ' open select_TSZ29;'+
         ' loop'+
@@ -1598,7 +1601,7 @@ exports.deleteTCJ05=function(req,res){
         ' close select_TSZ29;'+
         ' update TFJ02 set TFJ0233 = gyls_str where TFJ0200=TTCJ0501;'+
         ' end;';
-    var params = [tcj0500,tcj0500];
+    var params = [tcj0500];
     Oracle.queryParam(sql,params,function(err){
         if (err){
             var result = {
