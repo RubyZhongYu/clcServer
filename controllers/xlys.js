@@ -1614,7 +1614,7 @@ exports.deleteTCJ05=function(req,res){
         }else{
             var result = {
                 "data": {},
-                "message": "删除成功1!",
+                "message": "删除成功!",
                 "status": 200
             }
             res.send(JSON.stringify(result));
